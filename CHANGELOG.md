@@ -44,6 +44,26 @@ Changes to type checker and other components defining the Agda language.
   As in a `with`, multiple bindings can be separated by a `|`, and variables to
   the left are in scope in bindings to the right.
 
+* Type-based termination checker
+
+  Agda is now able to understand polymorphic functions during checking for structural recursion.
+  Some non-polymoprhic functions may also be recognized as size preserving, which leads to acceptance of the following functions:
+
+   ```agda
+  div : Nat → Nat → Nat
+  div zero    y = zero 
+  div (suc x) y = suc (div (minus x y) y)
+
+  qsort : {A : Set} → (A → A → Bool) → List A → List A
+  qsort _ nil = nil
+  qsort cmp (cons x xs) = qsort cmp (filter (cmp x) xs) ++ cons x (qsort cmp (filter (λ y → cmp y x) xs))
+  ```
+
+  Type-based termination checking also works for coinduction, which improves the guardedness predicate.
+
+  See [user manual](https://agda.readthedocs.io/en/v2.7.0/tools/type-based-termination-checking.html)
+  for more.
+
 * The following options are now considered infective:
   `--rewriting`, `--type-in-type`, `--omega-in-omega`,
   `--injective-type-constructors`, `--experimental-irrelevance`,
