@@ -95,7 +95,7 @@ import Agda.TypeChecking.Positivity.Occurrence
 import Agda.TypeChecking.Polarity.Base
 import Agda.TypeChecking.Free.Lazy (Free(freeVars'), underBinder', underBinder)
 
-import Agda.Termination.TypeBased.Syntax ( SizeSignature )
+import Agda.Termination.TypeBased.Syntax ( SizeSignature(..), pattern UndefinedSizeType )
 
 import Agda.Compiler.Backend.Base
 
@@ -2031,7 +2031,7 @@ data Definition = Defn
   { defArgInfo        :: ArgInfo -- ^ Hiding should not be used.
   , defName           :: QName   -- ^ The canonical name, used e.g. in compilation.
   , defType           :: Type    -- ^ Type of the lifted definition.
-  , defSizedType      :: Maybe SizeSignature -- ^ Size annotation for the type. Used in type-based termination checking.
+  , defSizedType      :: SizeSignature -- ^ Size annotation for the type. Used in type-based termination checking.
   , defPolarity       :: [Polarity]
     -- ^ Variance information on arguments of the definition.
     --   Does not include info for dropped parameters to
@@ -2136,7 +2136,7 @@ defaultDefn info x t lang def = Defn
   { defArgInfo        = info
   , defName           = x
   , defType           = t
-  , defSizedType      = Nothing
+  , defSizedType      = SizeSignature [] [] UndefinedSizeType
   , defPolarity       = []
   , defArgOccurrences = []
   , defArgGeneralizable = NoGeneralizableArgs
