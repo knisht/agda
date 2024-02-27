@@ -51,7 +51,7 @@ Changes to type checker and other components defining the Agda language.
 
    ```agda
   div : Nat → Nat → Nat
-  div zero    y = zero 
+  div zero    y = zero
   div (suc x) y = suc (div (minus x y) y)
 
   qsort : {A : Set} → (A → A → Bool) → List A → List A
